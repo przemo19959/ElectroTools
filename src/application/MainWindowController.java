@@ -2,24 +2,22 @@ package application;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import application.files.FileService;
 import application.files.FileServiceImpl;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Label;
@@ -88,7 +86,6 @@ public class MainWindowController {
 
 	private String currentResistanceValue;
 	private String currentTolerance;
-//	private InfoOverlay infoOverlay;
 	@FXML
 	private TextField inputVoltage;
 	@FXML
@@ -97,10 +94,6 @@ public class MainWindowController {
 	private Button voltageDivider;
 	@FXML
 	private TextField errorField;
-
-//	public void setInfoOverlay(InfoOverlay infoOverlay) {
-//		this.infoOverlay = infoOverlay;
-//	}
 
 	// na potrzeby testów
 	public void setResistorFileName(String resistorFileName) {
@@ -289,15 +282,19 @@ public class MainWindowController {
 		res += getTolerance();
 		resistance.setText(res+ ohmSymbol);
 	}
-	
+
 	/**
-	 * Ta metoda obs³uguje sprawdzenie zawartoœci pola tekstowego, jeœli wpisany tekst jest zgodny z formatem
-	 * podanym jako argument, to dany przycisk jest aktywny. W innym przypadku nie jest, a pole tekstowe jest
-	 * podœwietlane na czerwono.
-	 * @param pattern - wzór jaki ma spe³niaæ zawartoœæ pola tekstowego.
-	 * @param button - kontrolowany przycisk.
-	 * @param fieldContent - zawartoœæ pola tekstowego, która podlega sprawdzeniu
-	 * @param field - sprawdzane pole tekstowe.
+	 * Ta metoda obs³uguje sprawdzenie zawartoœci pola tekstowego, jeœli wpisany tekst jest zgodny z formatem podanym jako argument, to dany przycisk jest aktywny. W innym przypadku nie jest, a pole
+	 * tekstowe jest podœwietlane na czerwono.
+	 * 
+	 * @param pattern
+	 *            - wzór jaki ma spe³niaæ zawartoœæ pola tekstowego.
+	 * @param button
+	 *            - kontrolowany przycisk.
+	 * @param fieldContent
+	 *            - zawartoœæ pola tekstowego, która podlega sprawdzeniu
+	 * @param field
+	 *            - sprawdzane pole tekstowe.
 	 */
 	private void patternMatcher(String pattern, Button button, String fieldContent, TextField field) {
 		if(!fieldContent.matches(pattern)) {
@@ -308,15 +305,19 @@ public class MainWindowController {
 			button.setDisable(false);
 		}
 	}
-	
+
 	/**
-	 * Identyczna funkcja jak <b>patternMatcher</b> z tym, ¿e kilka przycisków musi spe³niæ dany wzorzec. Jako
-	 * parametr <b>index</b> podaje siê indeks flagi dla danego pola, jeœli wszystkie flagi w tablicy s¹ ustawione, wtedy
-	 * dany przyciks jest aktywowany.
-	 * @param pattern - wzór jaki ma spe³niaæ zawartoœæ pola tekstowego.
-	 * @param index - indeks flagi w tablicy.
-	 * @param fieldContent- zawartoœæ pola tekstowego, która podlega sprawdzeniu.
-	 * @param field - sprawdzane pole tekstowe.
+	 * Identyczna funkcja jak <b>patternMatcher</b> z tym, ¿e kilka przycisków musi spe³niæ dany wzorzec. Jako parametr <b>index</b> podaje siê indeks flagi dla danego pola, jeœli wszystkie flagi w
+	 * tablicy s¹ ustawione, wtedy dany przyciks jest aktywowany.
+	 * 
+	 * @param pattern
+	 *            - wzór jaki ma spe³niaæ zawartoœæ pola tekstowego.
+	 * @param index
+	 *            - indeks flagi w tablicy.
+	 * @param fieldContent-
+	 *            zawartoœæ pola tekstowego, która podlega sprawdzeniu.
+	 * @param field
+	 *            - sprawdzane pole tekstowe.
 	 */
 	private void patternMatcher2(String pattern, int index, String fieldContent, TextField field) {
 		if(!fieldContent.matches(pattern)) {
@@ -339,7 +340,7 @@ public class MainWindowController {
 	@FXML
 	private Label resistorsNumbersInStock;
 	private StoreController controller2;
-	
+
 	public void setController2(StoreController controller2) {
 		this.controller2 = controller2;
 	}
@@ -361,8 +362,6 @@ public class MainWindowController {
 			calculateResistance();
 			updateCurrentValues();
 		});
-
-		// TODO Dla ustawieñ 8,2,1x wywala wyj¹tek
 
 		// Dodanie klienckich dekoratorów do ka¿dego comboboxa
 		addCustomCellFactory(firstDigit, itemsVer1.subList(1, itemsVer1.size()));
@@ -403,12 +402,11 @@ public class MainWindowController {
 			float error = Float.parseFloat(errorField.getText().replace(",", "."));
 			float input = Float.parseFloat(inputVoltage.getText().replace(",", "."));
 			float output = Float.parseFloat(outputVoltage.getText().replace(",", "."));
-//			try {
-//				//TODO Wyœwietlanie
-////				infoOverlay.setText(calculate(error, input, output));
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+			try {
+				controller2.setInfo(calculate(error, input, output));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		});
 
 		try {
@@ -421,6 +419,7 @@ public class MainWindowController {
 		findButton.setOnAction(ev -> {
 			try {
 				controller2.setInfo(getAmountOfGivenResistor(currentResistanceValue));
+				resistorsNumbersInStock.setText("");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -435,25 +434,23 @@ public class MainWindowController {
 		});
 
 		insertButton.setOnAction(ev -> {
-//			try {
-//				//TODO Wyœwietlanie
-////				infoOverlay.setText(insertOrUpdate(currentResistanceValue, Integer.valueOf(quantityField.getText()), currentTolerance));
-//				// info.setText(infoOverlay.getText());
-//			} catch (NumberFormatException e) {
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+			try {
+				controller2.setInfo(insertOrUpdate(currentResistanceValue, Integer.valueOf(quantityField.getText()), currentTolerance));
+				resistorsNumbersInStock.setText("");
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		});
 
 		deleteButton.setOnAction(ev -> {
-//			try {
-//				//TODO Wyœwietlanie
-////				infoOverlay.setText(deleteGivenResistorRecord(currentResistanceValue, currentTolerance));
-//				// info.setText(infoOverlay.getText());
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+			try {
+				controller2.setInfo(deleteGivenResistorRecord(currentResistanceValue, currentTolerance));
+				resistorsNumbersInStock.setText("");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		});
 	}
 
@@ -461,7 +458,8 @@ public class MainWindowController {
 	 * Ta funkcja liczy napiêcie wyjœciowe dzielnika napiêciowego dla wszystkich mo¿liwych wariantów rezystorów znajduj¹cych siê w pliku. Pocz¹tkowo pobierana jest lista rekordów z pliku. Jeœli iloœæ
 	 * rekordów jest wiêksza ni¿ 1, wtedy pobierane s¹ wszystkie ró¿ne (distinct) wartoœci rezystorów z pliku, podczas tego procesu wartoœci rezystancji s¹ konwertowane z postaci stringa do liczb
 	 * zmiennoprzecinkowych. Funkcja liczy dla ka¿ej kombinacji rezystorów w pliku napiêcie wyjœciowe weg³ug zale¿noœci <b>Vout=Vin*(R1/(R1+R2))</b>, jeœli <i>output</i> -<b>Vout</b><<i>error</i> to
-	 * taka kombinacja jest dodawana do wyjœciowego stringa.
+	 * taka kombinacja jest dodawana do wyjœciowego stringa. Dodatkowo jeœli dana kombinacja spe³nia warunek, to wyœwietlana jest iloœæ mo¿liwych do zbudowania takich dzielników przy obecnym stanie
+	 * magazynu - zapisanego w pliku.
 	 * 
 	 * @param error
 	 *            - b³¹d wzglêdny napiêcia wyjœciowego obliczonego a ¿¹danego
@@ -478,21 +476,45 @@ public class MainWindowController {
 		List<String> resistors = fileService.readTxtFile(resistorFileName); // odczytaj wszystkie rekordy
 		if(resistors.isEmpty()|| resistors.size()== 1)
 			return "Too few records";
-		List<Float> values = resistors	.stream().map(item -> new Record(item, FileService.separator)).map(item -> item.getColumnItem(0)).distinct().map(item -> strResistanceToDouble(item))
-										.collect(Collectors.toList());
+		List<Record> records=resistors.stream().map(item -> new Record(item, FileService.separator)).collect(Collectors.toList());	//lista rekordów
+		List<String> values=records.stream().map(item -> item.getColumnItem(0)).distinct().collect(Collectors.toList()); //lista wartoœci rezystancji w stringu
+		Map<Float, String> map = values.stream().collect(Collectors.toMap(item->strResistanceToDouble(item),item->item)); //mapa wartoœci rezystancji w float oraz wartoœci w stringu
+		Map<Float, Integer> numberInStock=values.stream().collect(Collectors.toMap(item->strResistanceToDouble(item), item->count(records, item))); //mapa wartoœci w float oraz iloœci w ca³ym magazynie
 		float tmp = 0;
 		String result = "";
+		List<Float> resistances=map.keySet().stream().collect(Collectors.toList());
+		float resistor1=0, resistor2=0;
+		int available=0;
 		for(int i = 0;i< values.size();i++) {
-			for(int j = 0;j< values.size();j++) {
+			for(int j = 0;j<values.size();j++) {
+				resistor1=resistances.get(i);
+				resistor2=resistances.get(j);
 				if(!values.get(j).equals(values.get(i))) {
-					tmp = input* (values.get(i)/ (values.get(i)+ values.get(j)));
-					if(Math.abs(output- tmp)< error)
-						result += String.format("R1: %.2e, R2: %.2e, Vout: %.3e\n", values.get(i), values.get(j), tmp);
+					tmp = input* (resistor1)/ (resistor1+ resistor2);
+					if(Math.abs(output- tmp)< error) {
+						available=(numberInStock.get(resistor1)>numberInStock.get(resistor2))?numberInStock.get(resistor2):numberInStock.get(resistor1);
+						result += String.format("R1: %s"+ohmSymbol+", R2: %s"+ohmSymbol+", Vout: %.3e[V], Available: %d\n", map.get(resistor1), map.get(resistor2), tmp, available);
+					}
 				}
 			}
 		}
 		if(result.equals(""))
 			return "No resistors fulfilling given conditions";
+		return result;
+	}
+	
+	/**
+	 * Ta funkcja zwraca iloœæ rezystorów w liœcie o podanej wartoœci.
+	 * @param list - lista rekordów klasy <b>Record</b>
+	 * @param value - wartoœæ rezystora zapisana w stringu (np. 2.2k)
+	 * @return iloœæ wskazanego rezystora w liœcie.
+	 */
+	private int count(List<Record> list, String value) {
+		int result=0;
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getColumnItem(0).equals(value))
+				result+=Integer.valueOf(list.get(i).getColumnItem(1));
+		}
 		return result;
 	}
 
