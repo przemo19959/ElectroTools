@@ -122,7 +122,7 @@
 							<Label text="Amount:" translateY="5" />
 							<TextField fx:id="quantityField"
 								promptText="Number of resistors..." prefWidth="180" />
-							<Button fx:id="insertButton" prefWidth="100" text="Insert" />
+							<Button fx:id="insertButton" prefWidth="100" text="Insert" disable="true"/>
 							<Button fx:id="deleteButton" prefWidth="100" text="Delete" />
 							<Button fx:id="findButton" prefWidth="100" text="Find" />
 							<Button fx:id="selectAll" prefWidth="100" text="List All" />

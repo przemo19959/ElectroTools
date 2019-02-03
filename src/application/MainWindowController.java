@@ -5,18 +5,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.controlsfx.control.InfoOverlay;
-
 import application.files.FileService;
 import application.files.FileServiceImpl;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Label;
@@ -85,7 +88,7 @@ public class MainWindowController {
 
 	private String currentResistanceValue;
 	private String currentTolerance;
-	private InfoOverlay infoOverlay;
+//	private InfoOverlay infoOverlay;
 	@FXML
 	private TextField inputVoltage;
 	@FXML
@@ -95,9 +98,9 @@ public class MainWindowController {
 	@FXML
 	private TextField errorField;
 
-	public void setInfoOverlay(InfoOverlay infoOverlay) {
-		this.infoOverlay = infoOverlay;
-	}
+//	public void setInfoOverlay(InfoOverlay infoOverlay) {
+//		this.infoOverlay = infoOverlay;
+//	}
 
 	// na potrzeby testów
 	public void setResistorFileName(String resistorFileName) {
@@ -334,7 +337,12 @@ public class MainWindowController {
 	private RadioButton strips5;
 	private ToggleGroup radioGroup = new ToggleGroup();
 	@FXML
-	Label resistorsNumbersInStock;;
+	private Label resistorsNumbersInStock;
+	private StoreController controller2;
+	
+	public void setController2(StoreController controller2) {
+		this.controller2 = controller2;
+	}
 
 	@FXML
 	public void initialize() {
@@ -395,11 +403,12 @@ public class MainWindowController {
 			float error = Float.parseFloat(errorField.getText().replace(",", "."));
 			float input = Float.parseFloat(inputVoltage.getText().replace(",", "."));
 			float output = Float.parseFloat(outputVoltage.getText().replace(",", "."));
-			try {
-				infoOverlay.setText(calculate(error, input, output));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				//TODO Wyœwietlanie
+////				infoOverlay.setText(calculate(error, input, output));
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 		});
 
 		try {
@@ -411,8 +420,7 @@ public class MainWindowController {
 
 		findButton.setOnAction(ev -> {
 			try {
-				infoOverlay.setText(getAmountOfGivenResistor(currentResistanceValue));
-				// info.setText(infoOverlay.getText());
+				controller2.setInfo(getAmountOfGivenResistor(currentResistanceValue));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -420,30 +428,32 @@ public class MainWindowController {
 
 		selectAll.setOnAction(ev -> {
 			try {
-				infoOverlay.setText(selectAll());
+				controller2.setInfo(selectAll());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 
 		insertButton.setOnAction(ev -> {
-			try {
-				infoOverlay.setText(insertOrUpdate(currentResistanceValue, Integer.valueOf(quantityField.getText()), currentTolerance));
-				// info.setText(infoOverlay.getText());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				//TODO Wyœwietlanie
+////				infoOverlay.setText(insertOrUpdate(currentResistanceValue, Integer.valueOf(quantityField.getText()), currentTolerance));
+//				// info.setText(infoOverlay.getText());
+//			} catch (NumberFormatException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 		});
 
 		deleteButton.setOnAction(ev -> {
-			try {
-				infoOverlay.setText(deleteGivenResistorRecord(currentResistanceValue, currentTolerance));
-				// info.setText(infoOverlay.getText());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				//TODO Wyœwietlanie
+////				infoOverlay.setText(deleteGivenResistorRecord(currentResistanceValue, currentTolerance));
+//				// info.setText(infoOverlay.getText());
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 		});
 	}
 
