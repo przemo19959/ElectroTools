@@ -2,10 +2,8 @@ package application;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import application.files.FileService;
@@ -574,8 +572,8 @@ public class MainWindowController {
 		List<String> resistors = fileService.readTxtFile(resistorFileName); // odczytaj wszystkie rekordy
 		if(resistors.isEmpty())
 			return "No records";
-		String result = resistors	.stream().filter(record -> record.startsWith(resistorValue)) // wybierz te rekordy z ¿¹dan¹ wartoœci¹ rezystancji
-									.map(item -> new Record(item, FileService.separator)) // utwórz z nich obiekty Record
+		String result = resistors	.stream().map(item -> new Record(item, FileService.separator)) // utwórz z nich obiekty Record
+									.filter(record -> record.getColumnItem(0).equals(resistorValue)) // wybierz te rekordy z ¿¹dan¹ wartoœci¹ rezystancji
 									.map(item -> item.getColumnItem(2)+ " Quantity: "+ item.getColumnItem(1)) // utwórz stringi: tolerancja Quantity: iloœæ
 									.collect(Collectors.joining("\n")); // po³¹cz znakiem \n
 		if(result.equals(""))
@@ -637,7 +635,7 @@ public class MainWindowController {
 		if(resistors.isEmpty()) // jeœli plik pusty, dodaj nowy rekord
 			fileService.writeTxtFile(resistorFileName, record.toPrimaryFormat(FileService.separator)+ "\n"); // INSERT
 		else { // jeœli plik nie jest pusty
-			Record inStock = resistors	.stream().filter(item -> item.startsWith(resistorValue)).map(item -> new Record(item, FileService.separator))
+			Record inStock = resistors	.stream().map(item -> new Record(item, FileService.separator)).filter(item -> item.getColumnItem(0).equals(resistorValue))
 										.filter(item -> item.getColumnItem(2).equals(tolerance)).findFirst().orElse(null); // zwróæ, jeœli rekord istnieje, inaczej null
 			if(inStock== null)
 				fileService.writeTxtFile(resistorFileName, record.toPrimaryFormat(FileService.separator)+ "\n"); // INSERT
