@@ -10,18 +10,12 @@ public class Record {
 	public Record(String record, String separator) {
 		items = record.split(separator);
 	}
-
-	public String getColumnItem(int indexOfColumn) {
-		return items[indexOfColumn];
-	}
-
-	public void setColumnItem(int indexOfColumn, String newValue) {
-		items[indexOfColumn] = newValue;
-	}
-
-	public String toPrimaryFormat(String separator) {
-		return Arrays.stream(items).collect(Collectors.joining(separator));
-	}
+	
+	//@formatter:off
+	public String getItem(int index) {return items[index];}
+	public void setItem(int index, String newItem) {items[index] = newItem;}
+	public String toPrimaryFormat(String separator) {return Arrays.stream(items).collect(Collectors.joining(separator));}
+	//@formatter:on
 
 	@Override
 	public String toString() {
