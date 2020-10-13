@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+
+<?import org.controlsfx.control.InfoOverlay?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.RadioButton?>
+
+<TabPane fx:id="mainPane" prefHeight="400.0" prefWidth="800.0"
+	tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="pl.dabrowski.electrotools.main.MainWindowController">
+	<tabs>
+		<Tab text="Rezystor">
+			<content>
+				<VBox prefHeight="${mainWindow.prefHeight}"
+					prefWidth="${mainWindow.prefWidth}" spacing="5">
+					<children>
+						<HBox>
+							<children>
+								<VBox>
+									<children>
+										<RadioButton fx:id="strips4" text="4 strips"/>
+										<RadioButton fx:id="strips5" text="5 strips" selected="true" />
+									</children>
+								</VBox>
+								<Group translateX="150">
+									<children>
+										<Line endX="40" endY="40" startX="0" startY="40"
+											strokeWidth="4" />
+
+										<Line endX="40" endY="80" startX="40" startY="0"
+											strokeWidth="4" />
+
+										<Line endX="100" endY="0" startX="40" startY="0"
+											strokeWidth="4" />
+										<Line endX="100" endY="80" startX="40" startY="80"
+											strokeWidth="4" />
+
+										<Line endX="100" endY="10" startX="100" startY="0"
+											strokeWidth="4" />
+										<Line endX="100" endY="80" startX="100" startY="70"
+											strokeWidth="4" />
+
+										<Line endX="280" endY="10" startX="100" startY="10"
+											strokeWidth="4" />
+										<Line endX="280" endY="70" startX="100" startY="70"
+											strokeWidth="4" />
+
+										<Line endX="280" endY="10" startX="280" startY="0"
+											strokeWidth="4" />
+										<Line endX="280" endY="80" startX="280" startY="70"
+											strokeWidth="4" />
+
+										<Line endX="340" endY="0" startX="280" startY="0"
+											strokeWidth="4" />
+										<Line endX="340" endY="80" startX="280" startY="80"
+											strokeWidth="4" />
+
+										<Line endX="340" endY="80" startX="340" startY="0"
+											strokeWidth="4" />
+
+										<Line endX="380" endY="40" startX="340" startY="40"
+											strokeWidth="4" />
+
+										<Rectangle fx:id="strip1" arcHeight="5.0"
+											arcWidth="5.0" fill="GREEN" height="80.0" stroke="BLACK"
+											strokeType="INSIDE" width="20.0" x="70" />
+										<Rectangle fx:id="strip2" arcHeight="5.0"
+											arcWidth="5.0" fill="GREEN" height="60.0" stroke="BLACK"
+											strokeType="INSIDE" translateY="10" width="20.0" x="110" />
+										<Rectangle fx:id="strip3" arcHeight="5.0"
+											arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK"
+											strokeType="INSIDE" translateY="10" width="20.0" x="140" />
+										<Rectangle fx:id="strip4" arcHeight="5.0"
+											arcWidth="5.0" fill="RED" height="60.0" stroke="BLACK"
+											strokeType="INSIDE" translateY="10" width="20.0" x="200" />
+										<Rectangle fx:id="strip5" arcHeight="5.0"
+											arcWidth="5.0" fill="SILVER" height="80.0" stroke="BLACK"
+											strokeType="INSIDE" width="20.0" x="290" />
+									</children>
+								</Group>
+							</children>
+						</HBox>
+						<HBox prefHeight="10.0" prefWidth="${mainWindow.prefWidth}">
+							<children>
+								<Label text="Digit 1:" translateX="30" />
+								<Label text="Digit 2:" translateX="110" />
+								<Label text="Digit 3:" translateX="180" />
+								<Label text="Multiplier:" translateX="250" />
+								<Label text="Tolerance:" translateX="320" />
+								<Label text="Resistance:" translateX="410" />
+							</children>
+						</HBox>
+						<HBox prefHeight="10.0" prefWidth="${mainWindow.prefWidth}"
+							spacing="8">
+							<children>
+								<ComboBox fx:id="firstDigit" prefWidth="120"/>
+								<ComboBox fx:id="secondDigit" prefWidth="120" />
+								<ComboBox fx:id="thirdDigit" prefWidth="120" />
+								<ComboBox fx:id="multiplier" prefWidth="130" />
+								<ComboBox fx:id="tolerance" prefWidth="140" />
+								<Separator orientation="VERTICAL" prefHeight="100.0" />
+								<Label fx:id="resistance" text="" />
+							</children>
+						</HBox>
+						<HBox prefHeight="10.0" prefWidth="${mainWindow.prefWidth}"
+							spacing="8">
+							<Label text="Amount:" translateY="5" />
+							<TextField fx:id="quantityField"
+								promptText="Number of resistors..." prefWidth="180" />
+							<Button fx:id="insertButton" prefWidth="100" text="Insert" disable="true"/>
+							<Button fx:id="deleteButton" prefWidth="100" text="Delete" />
+							<Button fx:id="findButton" prefWidth="100" text="Find" />
+							<Button fx:id="selectAll" prefWidth="100" text="List All" />
+							<Separator orientation="VERTICAL" prefHeight="100.0" />
+							<Label fx:id="resistorsNumbersInStock" text="Num: " />
+						</HBox>
+					</children>
+				</VBox>
+			</content>
+		</Tab>
+		<Tab text="VD">
+			<HBox spacing="5">
+				<Group>
+					<children>
+						<ImageView fitHeight="320" fitWidth="350"
+							preserveRatio="true" smooth="true">
+							<image>
+								<Image url="/pl/dabrowski/electrotools/main/vd.png" />
+							</image>
+						</ImageView>
+						<TextField fx:id="inputVoltage" prefWidth="50"
+							translateY="50" translateX="30" />
+						<TextField fx:id="outputVoltage" prefWidth="50"
+							translateY="190" translateX="220" />
+					</children>
+				</Group>
+				<TextField fx:id="errorField" />
+				<Button fx:id="voltageDivider" text="Calculate"
+					disable="true" />
+
+			</HBox>
+		</Tab>
+	</tabs>
+</TabPane>
