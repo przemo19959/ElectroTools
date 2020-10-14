@@ -1,0 +1,10 @@
+1% Brown,SADDLEBROWN
+2% Red,red
+3% Orange,orange
+4% Yellow,yellow
+0.5% Green,green
+0.25% Blue,DODGERBLUE
+0.1% Violet,MEDIUMVIOLETRED
+0.05% Gray,gray
+5% Gold,gold
+10% Silver,silver

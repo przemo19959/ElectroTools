@@ -1,10 +1,10 @@
-0,black
-1,brown
-2,red
-3,orange
-4,yellow
-5,green
-6,blue
-7,violet
-8,grey
-9,white
+0 Black,black
+1 Brown,SADDLEBROWN
+2 Red,red
+3 Orange,orange
+4 Yellow,yellow
+5 Green,green
+6 Blue,DODGERBLUE
+7 Violet,MEDIUMVIOLETRED
+8 Gray,gray
+9 White,white

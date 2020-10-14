@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 
 @Retention(RUNTIME)
 @Target(FIELD)
-public @interface InitFromProperties {
+public @interface InitFromFile {
 	public String fileName() default "";
+	public String[] prefixes() default {};
 }

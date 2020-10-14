@@ -1,0 +1,12 @@
+1 Black,black
+10 Brown,SADDLEBROWN
+100 Red,red
+1e3 Orange,orange
+10e3 Yellow,yellow
+100e3 Green,green
+1e6 Blue,DODGERBLUE
+10e6 Violet,MEDIUMVIOLETRED
+100e6 Gray,gray
+1e9 White,white
+0.1 Gold,gold
+0.01 Silver,silver

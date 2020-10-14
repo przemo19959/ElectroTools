@@ -1,14 +1,20 @@
 package pl.dabrowski.electrotools.main;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -19,15 +25,8 @@ import pl.dabrowski.electrotools.Record;
 import pl.dabrowski.electrotools.files.FileService;
 import pl.dabrowski.electrotools.files.FileServiceImpl;
 import pl.dabrowski.electrotools.initService.InitFromFileEngine;
-import pl.dabrowski.electrotools.initService.InitFromProperties;
+import pl.dabrowski.electrotools.initService.InitFromFile;
 import pl.dabrowski.electrotools.store.StoreController;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.RadioButton;
 
 public class MainWindowController {
 	private static final String ERROR_BORDER_STYLE = "-fx-border-color: white white red white";
@@ -63,36 +62,16 @@ public class MainWindowController {
 	@FXML private RadioButton strips5;
 	@FXML private Label resistorsNumbersInStock;
 	//@formatter:on
-	
-	@InitFromProperties
-	private final List<Item> itemsVer1 = Arrays.asList(new Item("0 Black", Color.BLACK), new Item("1 Brown", Color.SADDLEBROWN), new Item("2 Red", Color.RED), new Item("3 Orange", Color.ORANGE),
-		new Item("4 Yellow", Color.YELLOW), new Item("5 Green", Color.GREEN), new Item("6 Blue", Color.DODGERBLUE), new Item("7 Violet", Color.MEDIUMVIOLETRED), new Item("8 Gray", Color.GRAY),
-		new Item("9 White", Color.WHITE));
 
-	private final List<Item> multipliers = Arrays.asList(new Item(MULTIPLY_SYMBOL + "1 Black", Color.BLACK), new Item(MULTIPLY_SYMBOL + "10 Brown", Color.SADDLEBROWN), new Item(MULTIPLY_SYMBOL
-																																													+ "100 Red",
-																																													Color.RED),
-		new Item(MULTIPLY_SYMBOL + "1e3 Orange", Color.ORANGE), new Item(MULTIPLY_SYMBOL + "10e3 Yellow", Color.YELLOW), new Item(MULTIPLY_SYMBOL + "100e3 Green", Color.GREEN), new Item(
-																																															MULTIPLY_SYMBOL
-																																															+ "1e6 Blue",
-																																															Color.DODGERBLUE),
-		new Item(MULTIPLY_SYMBOL + "10e6 Violet", Color.MEDIUMVIOLETRED), new Item(MULTIPLY_SYMBOL + "100e6 Gray", Color.GRAY), new Item(MULTIPLY_SYMBOL + "1e9 White", Color.WHITE), new Item(
-																																																MULTIPLY_SYMBOL
-																																																+ "0.1 Gold",
-																																																Color.GOLD),
-		new Item(MULTIPLY_SYMBOL + "0.01 Silver", Color.SILVER));
-
-	private final List<Item> tolerances = Arrays.asList(new Item(PLUS_MINUS_SYMBOL + "1% Brown", Color.SADDLEBROWN), new Item(PLUS_MINUS_SYMBOL + "2% Red", Color.RED), new Item(PLUS_MINUS_SYMBOL
-																																													+ "3% Orange",
-																																													Color.ORANGE),
-		new Item(PLUS_MINUS_SYMBOL + "4% Yellow", Color.YELLOW), new Item(PLUS_MINUS_SYMBOL + "0.5% Green", Color.GREEN), new Item(PLUS_MINUS_SYMBOL + "0.25% Blue", Color.DODGERBLUE), new Item(
-																																																	PLUS_MINUS_SYMBOL
-																																																	+ "0.1% Violet",
-																																																	Color.MEDIUMVIOLETRED),
-		new Item(PLUS_MINUS_SYMBOL + "0.05% Gray", Color.GRAY), new Item(PLUS_MINUS_SYMBOL + "5% Gold", Color.GOLD), new Item(PLUS_MINUS_SYMBOL + "10% Silver", Color.SILVER));
+	@InitFromFile
+	private List<Item> strips;
+	@InitFromFile(prefixes = {MULTIPLY_SYMBOL})
+	private List<Item> multipliers;
+	@InitFromFile(prefixes= {PLUS_MINUS_SYMBOL})
+	private List<Item> tolerances;
 
 	private FileService fileService = new FileServiceImpl();
-	private InitFromFileEngine initFromFileEngine=new InitFromFileEngine(this);
+	private InitFromFileEngine initFromFileEngine = new InitFromFileEngine(this);
 	private String resistorFileName = "resistors";
 	private String currentResistanceValue;
 	private String currentTolerance;
@@ -263,7 +242,8 @@ public class MainWindowController {
 	@FXML
 	public void initialize() {
 		initFromFileEngine.initFields();
-		
+		System.out.println(strips);
+
 		strips4.setToggleGroup(radioGroup);
 		strips5.setToggleGroup(radioGroup);
 
@@ -275,9 +255,9 @@ public class MainWindowController {
 			updateCurrentValues();
 		});
 
-		addCustomCellFactory(firstDigit, itemsVer1.subList(1, itemsVer1.size()));
-		addCustomCellFactory(secondDigit, itemsVer1);
-		addCustomCellFactory(thirdDigit, itemsVer1);
+		addCustomCellFactory(firstDigit, strips.subList(1, strips.size()));
+		addCustomCellFactory(secondDigit, strips);
+		addCustomCellFactory(thirdDigit, strips);
 		addCustomCellFactory(multiplier, multipliers);
 		addCustomCellFactory(tolerance, tolerances);
 
